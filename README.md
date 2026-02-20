@@ -2,6 +2,16 @@
 
 **Estrategia de lanzamiento y crecimiento para negocio de entrega de frutas y verduras frescas en Naucalpan**
 
+## 🌐 Ver en Línea
+
+**📽️ Presentación Interactiva:**  
+👉 **https://aaaalfred.github.io/la-marchanta-plan-5-acciones/**
+
+*(GitHub Pages puede tardar 1-2 minutos en desplegar la primera vez)*
+
+**📦 Repositorio:**  
+👉 **https://github.com/aaaalfred/la-marchanta-plan-5-acciones**
+
 ---
 
 ## 📋 Contenido del Repositorio
