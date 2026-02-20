@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan 5 Acciones - La Marchanta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            background: white;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            font-size: 3.5em;
+            color: #2C5F2D;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 2.5em;
+            color: #4A9950;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h3 {
+            font-size: 1.8em;
+            color: #2C5F2D;
+            margin: 20px 0;
+        }
+        
+        .subtitle {
+            font-size: 1.5em;
+            color: #666;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .content {
+            max-width: 1000px;
+            width: 100%;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #2C5F2D;
+        }
+        
+        .card p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .highlight {
+            background: #28A745;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .warning {
+            background: #FFC107;
+            color: #333;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        ul li {
+            font-size: 1.3em;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        ul li:before {
+            content: "✓ ";
+            color: #28A745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .stat-box {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            min-width: 200px;
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            color: #28A745;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 1.2em;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        button {
+            background: #2C5F2D;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        button:hover {
+            background: #4A9950;
+        }
+        
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            font-size: 1.2em;
+            color: #666;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 1.1em;
+        }
+        
+        th {
+            background: #2C5F2D;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .priority-high {
+            background: #28A745;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .priority-medium {
+            background: #FFC107;
+            color: #333;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Portada -->
+        <div class="slide active">
+            <h1>🚀 Plan 5 Acciones Clave</h1>
+            <div class="subtitle">Estrategia de Lanzamiento y Crecimiento</div>
+            <h2 style="color: #2C5F2D; margin-top: 50px;">LA MARCHANTA</h2>
+            <p style="font-size: 1.3em; color: #666; margin-top: 30px;">Entrega de frutas y verduras frescas en Naucalpan</p>
+            <p style="font-size: 1.1em; color: #999; margin-top: 20px;">Febrero 2026</p>
+        </div>
+        
+        <!-- Slide 2: Resumen Ejecutivo -->
+        <div class="slide">
+            <div class="content">
+                <h2>📊 Resumen Ejecutivo</h2>
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-number">$800</div>
+                        <div class="stat-label">Inversión Inicial</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">90-115</div>
+                        <div class="stat-label">Clientes Nuevos</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$23k</div>
+                        <div class="stat-label">Ingresos Mes 2</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">2,875%</div>
+                        <div class="stat-label">ROI Estimado</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 3: Las 5 Acciones -->
+        <div class="slide">
+            <div class="content">
+                <h2>🎯 Las 5 Acciones Clave</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Acción</th>
+                            <th>Costo</th>
+                            <th>Prioridad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Tienditas como Puntos de Recolección</td>
+                            <td>$0</td>
+                            <td><span class="priority-high">ALTA</span></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Cupones por Referidos</td>
+                            <td>$0</td>
+                            <td><span class="priority-high">ALTA</span></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Programa Fidelidad (Puntos)</td>
+                            <td>$0</td>
+                            <td><span class="priority-medium">MEDIA</span></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Suscripciones Semanales</td>
+                            <td>$0</td>
+                            <td><span class="priority-high">ALTA</span></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Eventos Degustación Local</td>
+                            <td>$800</td>
+                            <td><span class="priority-medium">MEDIA</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Acción 1 - Tienditas -->
+        <div class="slide">
+            <div class="content">
+                <h2>1️⃣ Tienditas Locales</h2>
+                <h3>¿Qué es?</h3>
+                <p style="font-size: 1.2em; margin-bottom: 30px;">Alianzas con tienditas de barrio donde clientes recogen sus pedidos</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>✓ Beneficio 1</h3>
+                        <p>Reduces costo de última milla (combustible/tiempo)</p>
+                    </div>
+                    <div class="card">
+                        <h3>✓ Beneficio 2</h3>
+                        <p>Amplías cobertura sin más repartidores</p>
+                    </div>
+                    <div class="card">
+                        <h3>✓ Beneficio 3</h3>
+                        <p>Ganas confianza local (tienda conocida)</p>
+                    </div>
+                    <div class="card">
+                        <h3>✓ Beneficio 4</h3>
+                        <p>Tienda gana tráfico sin inventario</p>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 30px;">Comisión: <span class="highlight">$10-15 por pedido</span></h3>
+            </div>
+        </div>
+        
+        <!-- Slide 5: Acción 2 - Referidos -->
+        <div class="slide">
+            <div class="content">
+                <h2>2️⃣ Cupones por Referidos</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Cliente A (Refiere)</h3>
+                        <p>Gana <strong>$50</strong> descuento en próxima compra</p>
+                    </div>
+                    <div class="card">
+                        <h3>Cliente B (Nuevo)</h3>
+                        <p>Gana <strong>$30</strong> descuento en primer pedido</p>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 40px;">Economía del Programa</h3>
+                <ul>
+                    <li>Costo por cliente nuevo: <span class="highlight">$80</span></li>
+                    <li>Valor cliente recurrente/mes: <span class="highlight">$200</span></li>
+                    <li>Recuperación inversión: <span class="highlight">2 semanas</span></li>
+                    <li>ROI Mes 1: <span class="highlight">250%</span></li>
+                </ul>
+                
+                <h3 style="margin-top: 30px;">Meta: 20 clientes → 10 referidos = <span class="highlight">30 clientes (+50%)</span></h3>
+            </div>
+        </div>
+        
+        <!-- Slide 6: Acción 3 - Fidelidad -->
+        <div class="slide">
+            <div class="content">
+                <h2>3️⃣ Programa de Fidelidad</h2>
+                <h3 style="text-align: center;">Cada $100 → 10 puntos | 100 puntos = $50 descuento</h3>
+                
+                <table style="margin-top: 40px;">
+                    <thead>
+                        <tr>
+                            <th>Nivel</th>
+                            <th>Gasto Mensual</th>
+                            <th>Puntos x $100</th>
+                            <th>Beneficio Extra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🥉 Bronce</td>
+                            <td>$200-500</td>
+                            <td>10</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>🥈 Plata</td>
+                            <td>$500-1000</td>
+                            <td>12</td>
+                            <td>+20% puntos</td>
+                        </tr>
+                        <tr style="background: #FFD700;">
+                            <td><strong>🥇 Oro</strong></td>
+                            <td><strong>+$1000</strong></td>
+                            <td><strong>15</strong></td>
+                            <td><strong>+50% + entrega gratis</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Slide 7: Acción 4 - Suscripciones -->
+        <div class="slide">
+            <div class="content">
+                <h2>4️⃣ Suscripciones Semanales</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>📦 Básico</h3>
+                        <p><strong>$150/semana</strong></p>
+                        <p>5kg frutas/verduras temporada</p>
+                        <p>Margen: 65%</p>
+                    </div>
+                    <div class="card">
+                        <h3>📦 Familiar</h3>
+                        <p><strong>$250/semana</strong></p>
+                        <p>10kg mix + huevo + pollo</p>
+                        <p>Margen: 68%</p>
+                    </div>
+                    <div class="card" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);">
+                        <h3>📦 Premium</h3>
+                        <p><strong>$400/semana</strong></p>
+                        <p>15kg + orgánicos + exóticas</p>
+                        <p>Margen: 70%</p>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 40px;">Meta Mes 1: <span class="highlight">10 suscriptores = $1,500-2,500/semana garantizado</span></h3>
+            </div>
+        </div>
+        
+        <!-- Slide 8: Acción 5 - Degustación -->
+        <div class="slide">
+            <div class="content">
+                <h2>5️⃣ Eventos de Degustación</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>📅 Cuándo</h3>
+                        <p>Sábado 10AM-2PM</p>
+                    </div>
+                    <div class="card">
+                        <h3>📍 Dónde</h3>
+                        <p>Plaza / Mercado local</p>
+                    </div>
+                    <div class="card">
+                        <h3>💰 Inversión</h3>
+                        <p>$500-800</p>
+                    </div>
+                    <div class="card">
+                        <h3>🎯 Meta</h3>
+                        <p>20 clientes nuevos</p>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 40px;">Actividades</h3>
+                <ul>
+                    <li>Mesa con frutas cortadas para probar</li>
+                    <li>Recetas rápidas (licuados, ensaladas)</li>
+                    <li>Registro WhatsApp</li>
+                    <li>Promo: Pedido hoy = 20% descuento</li>
+                </ul>
+                
+                <h3 style="margin-top: 30px;">ROI: <span class="highlight">500% en Mes 1</span></h3>
+            </div>
+        </div>
+        
+        <!-- Slide 9: Roadmap -->
+        <div class="slide">
+            <div class="content">
+                <h2>📅 Roadmap - Mes 1 y 2</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Semana</th>
+                            <th>Acción</th>
+                            <th>Prioridad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Semana 1</strong></td>
+                            <td>Setup tienditas + Lanzar referidos</td>
+                            <td><span class="priority-high">ALTA</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Semana 2</strong></td>
+                            <td>Implementar sistema fidelidad</td>
+                            <td><span class="priority-medium">MEDIA</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Semana 3</strong></td>
+                            <td>Ofrecer suscripciones semanales</td>
+                            <td><span class="priority-high">ALTA</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Semana 4</strong></td>
+                            <td>Revisar métricas y ajustar</td>
+                            <td><span class="priority-medium">MEDIA</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Semana 6</strong></td>
+                            <td>Primer evento degustación</td>
+                            <td><span class="priority-high">ALTA</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Semana 8</strong></td>
+                            <td>Análisis resultados completo</td>
+                            <td><span class="priority-high">ALTA</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Slide 10: KPIs -->
+        <div class="slide">
+            <div class="content">
+                <h2>📊 KPIs a Medir</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>KPI</th>
+                            <th>Meta Mes 1</th>
+                            <th>Meta Mes 2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Clientes Totales</td>
+                            <td>30</td>
+                            <td>80</td>
+                        </tr>
+                        <tr>
+                            <td>% Clientes Recurrentes</td>
+                            <td>40%</td>
+                            <td>60%</td>
+                        </tr>
+                        <tr>
+                            <td>Ticket Promedio</td>
+                            <td>$200</td>
+                            <td>$220</td>
+                        </tr>
+                        <tr>
+                            <td>Suscriptores Semanales</td>
+                            <td>10</td>
+                            <td>25</td>
+                        </tr>
+                        <tr>
+                            <td>Pedidos desde Tienditas</td>
+                            <td>30%</td>
+                            <td>50%</td>
+                        </tr>
+                        <tr>
+                            <td>Nuevos por Referidos</td>
+                            <td>10</td>
+                            <td>20</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Slide 11: Próximos Pasos -->
+        <div class="slide">
+            <div class="content">
+                <h2>✅ Próximos Pasos Inmediatos</h2>
+                <ul style="font-size: 1.2em;">
+                    <li>Identificar 10 tienditas en Naucalpan (Google Maps + caminata)</li>
+                    <li>Diseñar códigos de referido simple (ALFRED2026, etc.)</li>
+                    <li>Crear tabla Excel para tracking puntos fidelidad</li>
+                    <li>Definir 3 paquetes suscripción (Básico/Familiar/Premium)</li>
+                    <li>Planear primer evento degustación (fecha + lugar)</li>
+                </ul>
+                
+                <h3 style="margin-top: 50px; text-align: center;">
+                    <span class="highlight">Recomendación: Empezar con Referidos + Tienditas en paralelo</span>
+                </h3>
+            </div>
+        </div>
+        
+        <!-- Slide 12: Cierre -->
+        <div class="slide">
+            <h1>🚀 ¡Listos para Arrancar!</h1>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Acciones Clave</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">$800</div>
+                    <div class="stat-label">Inversión Total</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Clientes Mes 2</div>
+                </div>
+            </div>
+            <h2 style="margin-top: 50px;">LA MARCHANTA</h2>
+            <p style="font-size: 1.3em; color: #666; margin-top: 20px;">Frutas y verduras frescas a domicilio</p>
+        </div>
+    </div>
+    
+    <div class="slide-number"></div>
+    <div class="navigation">
+        <button onclick="prevSlide()">← Anterior</button>
+        <button onclick="nextSlide()">Siguiente →</button>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const slideNumber = document.querySelector('.slide-number');
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideNumber.textContent = `${currentSlide + 1} / ${slides.length}`;
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+        
+        // Initialize
+        slideNumber.textContent = `1 / ${slides.length}`;
+    </script>
+</body>
+</html>
